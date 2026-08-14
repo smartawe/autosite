@@ -1,22 +1,30 @@
-name: Deploy HTML to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4   # ✅ latest version
 
-      - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v2
+      - name: Setup Pages
+        uses: actions/configure-pages@v5   # ✅ latest version
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3   # ✅ correct replacement
         with:
-          path: .   # This publishes everything in your repo (including test.html)
+          path: .   # publish everything in your repo
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    steps:
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4   # ✅ latest version

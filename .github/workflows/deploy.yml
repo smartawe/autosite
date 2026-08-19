@@ -1,0 +1,16 @@
+name: Deploy
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: . # deploy the repo root as-is (no build step)
+          branch: gh-pages
+          clean-exclude: pr-preview # don't let this wipe out active PR previews
+          force: false # rebase instead of force-push, so previews survive
